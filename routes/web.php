@@ -67,8 +67,8 @@ Route::get('/reports/bookings', [ReportController::class, 'bookings'])->name('re
 Route::get('/reports/export/{type}', [ReportController::class, 'export'])->name('reports.export');
 
 // Settings
-// Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
-// Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
+Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
+Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
 
 // Authentication
 Auth::routes(['register' => false]);

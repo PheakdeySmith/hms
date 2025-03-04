@@ -11,11 +11,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Styles -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
         :root {
             --primary-color: #4e73df;
@@ -31,64 +31,138 @@
             --header-height: 70px;
             --footer-height: 60px;
         }
-        
+
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f8f9fc;
             overflow-x: hidden;
         }
-        
+
         /* Sidebar Styles */
         #sidebar {
             position: fixed;
             width: var(--sidebar-width);
             height: 100vh;
-            background: linear-gradient(180deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            background: #2c3e50; /* Dark blue color as shown in the image */
             color: white;
             transition: all 0.3s;
             z-index: 1000;
             box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
         }
-        
+
         #sidebar .sidebar-header {
             padding: 20px;
-            background: rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
+
+        #sidebar .hotel-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+        }
+
+        #sidebar .hotel-logo img {
+            width: 40px;
+            height: 40px;
+        }
+
         #sidebar .sidebar-brand {
-            font-size: 1.2rem;
-            font-weight: 700;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-top: 10px;
+            line-height: 1.4;
+        }
+
+        #sidebar .category-title {
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 0.05rem;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.5);
+            padding: 15px 20px 5px;
+            font-weight: 600;
         }
-        
+
         #sidebar ul.components {
-            padding: 20px 0;
+            padding: 0;
         }
-        
+
         #sidebar ul li a {
             padding: 12px 20px;
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
             transition: all 0.3s;
             font-size: 0.9rem;
             border-left: 3px solid transparent;
         }
-        
+
+        #sidebar ul li a .menu-item {
+            display: flex;
+            align-items: center;
+        }
+
+        #sidebar ul li a .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
         #sidebar ul li a:hover,
         #sidebar ul li a.active {
             color: white;
             background: rgba(255, 255, 255, 0.1);
             border-left: 3px solid white;
         }
-        
-        #sidebar ul li a i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
+
+        #sidebar ul li a .dropdown-indicator {
+            font-size: 0.8rem;
         }
-        
+
+        #sidebar ul li ul.collapse {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        #sidebar ul li ul.collapse li a {
+            padding: 8px 20px 8px 50px;
+            font-size: 0.85rem;
+            border-left: none;
+        }
+
+        #sidebar ul li ul.collapse li a:hover,
+        #sidebar ul li ul.collapse li a.active {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: none;
+        }
+
+        #sidebar ul li ul.collapse li a .menu-item i {
+            font-size: 0.5rem;
+            margin-right: 8px;
+        }
+
+        /* Add a turquoise highlight for the active menu section */
+        #sidebar ul li a.active,
+        #sidebar ul li a[aria-expanded="true"] {
+            border-left: 3px solid #1abc9c;
+        }
+
+        /* Add a subtle transition for dropdown arrows */
+        #sidebar ul li a[aria-expanded="true"] .dropdown-indicator {
+            transform: rotate(180deg);
+            transition: transform 0.3s;
+        }
+
+        #sidebar ul li a .dropdown-indicator {
+            transition: transform 0.3s;
+        }
+
         #sidebar .sidebar-footer {
             position: absolute;
             bottom: 0;
@@ -97,7 +171,7 @@
             background: rgba(0, 0, 0, 0.1);
             font-size: 0.8rem;
         }
-        
+
         /* Content Styles */
         #content {
             width: calc(100% - var(--sidebar-width));
@@ -107,7 +181,7 @@
             display: flex;
             flex-direction: column;
         }
-        
+
         /* Header Styles */
         #header {
             height: var(--header-height);
@@ -120,42 +194,42 @@
             top: 0;
             z-index: 100;
         }
-        
+
         #header .navbar-search {
             width: 30%;
         }
-        
+
         #header .navbar-search .input-group {
             border-radius: 20px;
             overflow: hidden;
         }
-        
+
         #header .navbar-search .form-control {
             border-radius: 20px 0 0 20px;
             border: 1px solid #d1d3e2;
             font-size: 0.85rem;
         }
-        
+
         #header .navbar-search .btn {
             border-radius: 0 20px 20px 0;
             background-color: var(--primary-color);
             border-color: var(--primary-color);
         }
-        
+
         #header .navbar-nav .nav-item {
             position: relative;
         }
-        
+
         #header .navbar-nav .nav-link {
             color: var(--secondary-color);
             font-size: 0.85rem;
             padding: 0 0.75rem;
         }
-        
+
         #header .navbar-nav .nav-link:hover {
             color: var(--primary-color);
         }
-        
+
         #header .navbar-nav .dropdown-menu {
             position: absolute;
             right: 0;
@@ -165,32 +239,32 @@
             box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
             border-radius: 0.35rem;
         }
-        
+
         #header .navbar-nav .dropdown-menu .dropdown-item {
             font-weight: 400;
             padding: 0.5rem 1rem;
         }
-        
+
         #header .navbar-nav .dropdown-menu .dropdown-item:hover {
             background-color: var(--light-color);
         }
-        
+
         #header .navbar-nav .dropdown-menu .dropdown-item i {
             margin-right: 0.5rem;
             color: var(--secondary-color);
         }
-        
+
         #header .navbar-nav .dropdown-menu .dropdown-divider {
             border-top: 1px solid #e3e6f0;
         }
-        
+
         /* Main Content Styles */
         #main {
             flex: 1;
             padding: 25px;
             padding-bottom: calc(var(--footer-height) + 25px);
         }
-        
+
         /* Footer Styles */
         #footer {
             height: var(--footer-height);
@@ -205,71 +279,71 @@
             width: calc(100% - var(--sidebar-width));
             z-index: 99;
         }
-        
+
         /* Card Styles */
         .card {
             border: none;
             border-radius: 0.35rem;
             box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
         }
-        
+
         .card .card-header {
             background-color: #f8f9fc;
             border-bottom: 1px solid #e3e6f0;
             padding: 1rem 1.35rem;
         }
-        
+
         /* Button Styles */
         .btn-primary {
             background-color: var(--primary-color);
             border-color: var(--primary-color);
         }
-        
+
         .btn-primary:hover {
             background-color: var(--primary-dark);
             border-color: var(--primary-dark);
         }
-        
+
         /* Badge Styles */
         .badge {
             font-weight: 600;
             font-size: 0.75rem;
             padding: 0.35em 0.65em;
         }
-        
+
         /* Responsive Styles */
         @media (max-width: 768px) {
             #sidebar {
                 margin-left: calc(var(--sidebar-width) * -1);
             }
-            
+
             #sidebar.active {
                 margin-left: 0;
             }
-            
+
             #content {
                 width: 100%;
                 margin-left: 0;
             }
-            
+
             #content.active {
                 margin-left: var(--sidebar-width);
                 width: calc(100% - var(--sidebar-width));
             }
-            
+
             #footer {
                 width: 100%;
             }
-            
+
             #footer.active {
                 width: calc(100% - var(--sidebar-width));
             }
-            
+
             #sidebarCollapse {
                 display: block;
             }
         }
-        
+
         /* Toggle Button */
         #sidebarCollapse {
             display: none;
@@ -280,26 +354,26 @@
             cursor: pointer;
             margin-right: 15px;
         }
-        
+
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
-        
+
         ::-webkit-scrollbar-track {
             background: #f1f1f1;
         }
-        
+
         ::-webkit-scrollbar-thumb {
             background: #c1c1c1;
             border-radius: 4px;
         }
-        
+
         ::-webkit-scrollbar-thumb:hover {
             background: #a8a8a8;
         }
     </style>
-    
+
     @yield('styles')
 </head>
 <body>
@@ -307,61 +381,229 @@
         <!-- Sidebar -->
         <nav id="sidebar">
             <div class="sidebar-header">
+                <div class="hotel-logo">
+                    <img src="{{ asset('images/hotel-logo.svg') }}" alt="Hotel Logo" onerror="this.src='https://via.placeholder.com/40?text=HOTEL'">
+                </div>
                 <div class="sidebar-brand">
-                    <i class="fas fa-hotel"></i> HMS
+                    Welcome to Our Hotel,<br>
+                    <strong>HOTEL</strong>
                 </div>
             </div>
-            
+
+            <div class="category-title">GENERAL</div>
+
             <ul class="list-unstyled components">
                 <li>
                     <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                        <div class="menu-item">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </div>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('rooms.index') }}" class="{{ request()->routeIs('rooms.*') ? 'active' : '' }}">
-                        <i class="fas fa-door-open"></i> Rooms
+                    <a href="#roleSubmenu" data-bs-toggle="collapse" class="{{ request()->routeIs('roles.*') ? 'active' : '' }}">
+                        <div class="menu-item">
+                            <i class="fas fa-user-tag"></i> Role
+                        </div>
+                        <i class="fas fa-chevron-down dropdown-indicator"></i>
                     </a>
+                    <ul class="collapse list-unstyled" id="roleSubmenu">
+                        <li>
+                            <a href="#">
+                                <div class="menu-item">
+                                    <i class="fas fa-circle fa-xs"></i> All Roles
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div class="menu-item">
+                                    <i class="fas fa-circle fa-xs"></i> Add New Role
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
-                    <a href="{{ route('room-types.index') }}" class="{{ request()->routeIs('room-types.*') ? 'active' : '' }}">
-                        <i class="fas fa-bed"></i> Room Types
+                    <a href="#bookingSubmenu" data-bs-toggle="collapse" class="{{ request()->routeIs('bookings.*') ? 'active' : '' }}">
+                        <div class="menu-item">
+                            <i class="fas fa-calendar-check"></i> Booking
+                        </div>
+                        <i class="fas fa-chevron-down dropdown-indicator"></i>
                     </a>
+                    <ul class="collapse list-unstyled" id="bookingSubmenu">
+                        <li>
+                            <a href="{{ route('bookings.index') }}">
+                                <div class="menu-item">
+                                    <i class="fas fa-circle fa-xs"></i> All Bookings
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('bookings.create') }}">
+                                <div class="menu-item">
+                                    <i class="fas fa-circle fa-xs"></i> Add New Booking
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
-                    <a href="{{ route('guests.index') }}" class="{{ request()->routeIs('guests.*') ? 'active' : '' }}">
-                        <i class="fas fa-users"></i> Guests
+                    <a href="#reportSubmenu" data-bs-toggle="collapse" class="{{ request()->routeIs('reports.*') ? 'active' : '' }}">
+                        <div class="menu-item">
+                            <i class="fas fa-chart-bar"></i> Report Hotel
+                        </div>
+                        <i class="fas fa-chevron-down dropdown-indicator"></i>
                     </a>
+                    <ul class="collapse list-unstyled" id="reportSubmenu">
+                        <li>
+                            <a href="{{ route('reports.index') }}">
+                                <div class="menu-item">
+                                    <i class="fas fa-circle fa-xs"></i> Overview
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('reports.occupancy') }}">
+                                <div class="menu-item">
+                                    <i class="fas fa-circle fa-xs"></i> Occupancy Report
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('reports.revenue') }}">
+                                <div class="menu-item">
+                                    <i class="fas fa-circle fa-xs"></i> Revenue Report
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
-                    <a href="{{ route('bookings.index') }}" class="{{ request()->routeIs('bookings.*') ? 'active' : '' }}">
-                        <i class="fas fa-calendar-check"></i> Bookings
+                    <a href="#paymentSubmenu" data-bs-toggle="collapse" class="{{ request()->routeIs('payments.*') ? 'active' : '' }}">
+                        <div class="menu-item">
+                            <i class="fas fa-credit-card"></i> Payment
+                        </div>
+                        <i class="fas fa-chevron-down dropdown-indicator"></i>
                     </a>
+                    <ul class="collapse list-unstyled" id="paymentSubmenu">
+                        <li>
+                            <a href="{{ route('payments.index') }}">
+                                <div class="menu-item">
+                                    <i class="fas fa-circle fa-xs"></i> All Payments
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
-                    <a href="{{ route('payments.index') }}" class="{{ request()->routeIs('payments.*') ? 'active' : '' }}">
-                        <i class="fas fa-credit-card"></i> Payments
+                    <a href="#roomSubmenu" data-bs-toggle="collapse" class="{{ request()->routeIs('rooms.*') || request()->routeIs('room-types.*') ? 'active' : '' }}">
+                        <div class="menu-item">
+                            <i class="fas fa-bed"></i> Room Management
+                        </div>
+                        <i class="fas fa-chevron-down dropdown-indicator"></i>
                     </a>
+                    <ul class="collapse list-unstyled" id="roomSubmenu">
+                        <li>
+                            <a href="{{ route('rooms.index') }}">
+                                <div class="menu-item">
+                                    <i class="fas fa-circle fa-xs"></i> All Rooms
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('rooms.create') }}">
+                                <div class="menu-item">
+                                    <i class="fas fa-circle fa-xs"></i> Add New Room
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('room-types.index') }}">
+                                <div class="menu-item">
+                                    <i class="fas fa-circle fa-xs"></i> Room Types
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
-                    <a href="{{ route('reports.index') }}" class="{{ request()->routeIs('reports.*') ? 'active' : '' }}">
-                        <i class="fas fa-chart-bar"></i> Reports
+                    <a href="#amenitiesSubmenu" data-bs-toggle="collapse">
+                        <div class="menu-item">
+                            <i class="fas fa-concierge-bell"></i> Amenities
+                        </div>
+                        <i class="fas fa-chevron-down dropdown-indicator"></i>
                     </a>
+                    <ul class="collapse list-unstyled" id="amenitiesSubmenu">
+                        <li>
+                            <a href="#">
+                                <div class="menu-item">
+                                    <i class="fas fa-circle fa-xs"></i> All Amenities
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div class="menu-item">
+                                    <i class="fas fa-circle fa-xs"></i> Add New Amenity
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
-                    <a href="{{ route('settings.index') }}" class="{{ request()->routeIs('settings.*') ? 'active' : '' }}">
-                        <i class="fas fa-cog"></i> Settings
+                    <a href="#customerSubmenu" data-bs-toggle="collapse" class="{{ request()->routeIs('guests.*') ? 'active' : '' }}">
+                        <div class="menu-item">
+                            <i class="fas fa-users"></i> Customer
+                        </div>
+                        <i class="fas fa-chevron-down dropdown-indicator"></i>
                     </a>
+                    <ul class="collapse list-unstyled" id="customerSubmenu">
+                        <li>
+                            <a href="{{ route('guests.index') }}">
+                                <div class="menu-item">
+                                    <i class="fas fa-circle fa-xs"></i> All Customers
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('guests.create') }}">
+                                <div class="menu-item">
+                                    <i class="fas fa-circle fa-xs"></i> Add New Customer
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#staffSubmenu" data-bs-toggle="collapse">
+                        <div class="menu-item">
+                            <i class="fas fa-user-tie"></i> Staff
+                        </div>
+                        <i class="fas fa-chevron-down dropdown-indicator"></i>
+                    </a>
+                    <ul class="collapse list-unstyled" id="staffSubmenu">
+                        <li>
+                            <a href="#">
+                                <div class="menu-item">
+                                    <i class="fas fa-circle fa-xs"></i> All Staff
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div class="menu-item">
+                                    <i class="fas fa-circle fa-xs"></i> Add New Staff
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
-            
-            <div class="sidebar-footer">
-                <div class="text-center">
-                    <span>&copy; {{ date('Y') }} Hotel Management System</span>
-                </div>
-            </div>
+
+            <div class="category-title">MENU</div>
         </nav>
-        
+
         <!-- Content -->
         <div id="content">
             <!-- Header -->
@@ -369,7 +611,7 @@
                 <button type="button" id="sidebarCollapse">
                     <i class="fas fa-bars"></i>
                 </button>
-                
+
                 <div class="navbar-search">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search for..." aria-label="Search">
@@ -378,7 +620,7 @@
                         </button>
                     </div>
                 </div>
-                
+
                 <div class="ms-auto d-flex align-items-center">
                     <!-- Notifications Dropdown -->
                     <div class="nav-item dropdown">
@@ -415,7 +657,7 @@
                             <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
                         </div>
                     </div>
-                    
+
                     <!-- User Dropdown -->
                     <div class="nav-item dropdown ms-3">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -447,12 +689,12 @@
                     </div>
                 </div>
             </nav>
-            
+
             <!-- Main Content -->
             <main id="main">
                 @yield('content')
             </main>
-            
+
             <!-- Footer -->
             <footer id="footer">
                 <div class="text-center">
@@ -461,7 +703,7 @@
             </footer>
         </div>
     </div>
-    
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -472,7 +714,7 @@
                 $('#content').toggleClass('active');
                 $('#footer').toggleClass('active');
             });
-            
+
             // Close dropdown when clicking outside
             $(document).click(function(e) {
                 var container = $(".navbar-nav");
@@ -484,7 +726,7 @@
             });
         });
     </script>
-    
+
     @yield('scripts')
 </body>
-</html> 
+</html>

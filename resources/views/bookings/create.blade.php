@@ -29,7 +29,7 @@
         <div class="card-body">
             <form action="{{ route('bookings.store') }}" method="POST">
                 @csrf
-                
+
                 <div class="row">
                     <!-- Guest Information -->
                     <div class="col-md-6">
@@ -49,7 +49,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                
+
                                 <div class="d-grid gap-2">
                                     <a href="{{ route('guests.create') }}" class="btn btn-outline-primary">
                                         <i class="fas fa-plus"></i> Create New Guest
@@ -57,7 +57,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="card mb-4">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">Booking Source</h6>
@@ -77,7 +77,7 @@
                                         <option value="other" {{ old('booking_source') == 'other' ? 'selected' : '' }}>Other</option>
                                     </select>
                                 </div>
-                                
+
                                 <div class="mb-3">
                                     <label for="special_requests" class="form-label">Special Requests</label>
                                     <textarea class="form-control" id="special_requests" name="special_requests" rows="3">{{ old('special_requests') }}</textarea>
@@ -85,7 +85,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Room and Date Information -->
                     <div class="col-md-6">
                         <div class="card mb-4">
@@ -97,8 +97,8 @@
                                     <label for="room_id" class="form-label">Select Room</label>
                                     <select class="form-select" id="room_id" name="room_id" required>
                                         <option value="">-- Select Room --</option>
-                                        @foreach($rooms as $room)
-                                            <option value="{{ $room->id }}" 
+                                        @foreach($availableRooms as $room)
+                                            <option value="{{ $room->id }}"
                                                 data-price="{{ $room->roomType->price_per_night }}"
                                                 data-capacity="{{ $room->roomType->capacity }}"
                                                 {{ old('room_id') == $room->id ? 'selected' : '' }}>
@@ -107,7 +107,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                
+
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="check_in_date" class="form-label">Check-in Date</label>
@@ -118,7 +118,7 @@
                                         <input type="date" class="form-control" id="check_out_date" name="check_out_date" value="{{ old('check_out_date', date('Y-m-d', strtotime('+1 day'))) }}" min="{{ date('Y-m-d', strtotime('+1 day')) }}" required onchange="calculateNights()">
                                     </div>
                                 </div>
-                                
+
                                 <div class="mb-3">
                                     <label for="number_of_guests" class="form-label">Number of Guests</label>
                                     <input type="number" class="form-control" id="number_of_guests" name="number_of_guests" value="{{ old('number_of_guests', 1) }}" min="1" required>
@@ -128,7 +128,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="card mb-4">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">Payment Information</h6>
@@ -147,7 +147,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="mb-3">
                                     <label for="total_price" class="form-label">Total Price</label>
                                     <div class="input-group">
@@ -159,7 +159,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-save"></i> Create Booking
@@ -179,54 +179,54 @@
         // Initialize calculations
         calculateNights();
         updateTotalPrice();
-        
+
         // Add event listeners
         document.getElementById('room_id').addEventListener('change', function() {
             updateTotalPrice();
             checkCapacity();
         });
-        
+
         document.getElementById('check_in_date').addEventListener('change', function() {
             calculateNights();
             updateTotalPrice();
         });
-        
+
         document.getElementById('check_out_date').addEventListener('change', function() {
             calculateNights();
             updateTotalPrice();
         });
-        
+
         document.getElementById('number_of_guests').addEventListener('change', function() {
             checkCapacity();
         });
     });
-    
+
     function calculateNights() {
         const checkInDate = new Date(document.getElementById('check_in_date').value);
         const checkOutDate = new Date(document.getElementById('check_out_date').value);
-        
+
         // Validate dates
         if (checkOutDate <= checkInDate) {
             document.getElementById('check_out_date').value = new Date(checkInDate.getTime() + 86400000).toISOString().split('T')[0];
             return calculateNights();
         }
-        
+
         // Calculate nights
         const timeDiff = checkOutDate.getTime() - checkInDate.getTime();
         const nights = Math.ceil(timeDiff / (1000 * 3600 * 24));
         document.getElementById('nights').value = nights;
-        
+
         return nights;
     }
-    
+
     function updateTotalPrice() {
         const roomSelect = document.getElementById('room_id');
         const nights = calculateNights();
-        
+
         if (roomSelect.selectedIndex > 0) {
             const pricePerNight = parseFloat(roomSelect.options[roomSelect.selectedIndex].dataset.price);
             document.getElementById('room_price').value = pricePerNight.toFixed(2);
-            
+
             const totalPrice = pricePerNight * nights;
             document.getElementById('total_price').value = totalPrice.toFixed(2);
         } else {
@@ -234,15 +234,15 @@
             document.getElementById('total_price').value = '0.00';
         }
     }
-    
+
     function checkCapacity() {
         const roomSelect = document.getElementById('room_id');
         const numberOfGuests = parseInt(document.getElementById('number_of_guests').value);
         const capacityWarning = document.getElementById('capacity_warning');
-        
+
         if (roomSelect.selectedIndex > 0) {
             const roomCapacity = parseInt(roomSelect.options[roomSelect.selectedIndex].dataset.capacity);
-            
+
             if (numberOfGuests > roomCapacity) {
                 capacityWarning.style.display = 'block';
             } else {
@@ -255,4 +255,4 @@
 </script>
 @endsection
 
-@endsection 
+@endsection
