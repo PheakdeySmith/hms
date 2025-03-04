@@ -97,7 +97,10 @@ class RoomTypeSeeder extends Seeder
         ];
 
         foreach ($roomTypes as $roomType) {
-            RoomType::create($roomType);
+            RoomType::firstOrCreate(
+                ['name' => $roomType['name']],
+                $roomType
+            );
         }
     }
 }

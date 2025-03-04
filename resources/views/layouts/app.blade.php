@@ -401,27 +401,49 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#roleSubmenu" data-bs-toggle="collapse" class="{{ request()->routeIs('roles.*') ? 'active' : '' }}">
+                    <a href="#roleSubmenu" data-bs-toggle="collapse" class="{{ request()->routeIs('roles.*') || request()->routeIs('permissions.*') ? 'active' : '' }}">
                         <div class="menu-item">
                             <i class="fas fa-user-tag"></i> Role
                         </div>
                         <i class="fas fa-chevron-down dropdown-indicator"></i>
                     </a>
                     <ul class="collapse list-unstyled" id="roleSubmenu">
+                        @can('view-role')
                         <li>
-                            <a href="#">
+                            <a href="{{ route('roles.index') }}">
                                 <div class="menu-item">
                                     <i class="fas fa-circle fa-xs"></i> All Roles
                                 </div>
                             </a>
                         </li>
+                        @endcan
+                        @can('create-role')
                         <li>
-                            <a href="#">
+                            <a href="{{ route('roles.create') }}">
                                 <div class="menu-item">
                                     <i class="fas fa-circle fa-xs"></i> Add New Role
                                 </div>
                             </a>
                         </li>
+                        @endcan
+                        @can('view-permission')
+                        <li>
+                            <a href="{{ route('permissions.index') }}">
+                                <div class="menu-item">
+                                    <i class="fas fa-circle fa-xs"></i> All Permissions
+                                </div>
+                            </a>
+                        </li>
+                        @endcan
+                        @can('create-permission')
+                        <li>
+                            <a href="{{ route('permissions.create') }}">
+                                <div class="menu-item">
+                                    <i class="fas fa-circle fa-xs"></i> Add New Permission
+                                </div>
+                            </a>
+                        </li>
+                        @endcan
                     </ul>
                 </li>
                 <li>
@@ -576,7 +598,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#staffSubmenu" data-bs-toggle="collapse">
+                    <a href="#staffSubmenu" data-bs-toggle="collapse" class="{{ request()->routeIs('staff.*') ? 'active' : '' }}">
                         <div class="menu-item">
                             <i class="fas fa-user-tie"></i> Staff
                         </div>
@@ -584,14 +606,14 @@
                     </a>
                     <ul class="collapse list-unstyled" id="staffSubmenu">
                         <li>
-                            <a href="#">
+                            <a href="{{ route('staff.index') }}">
                                 <div class="menu-item">
                                     <i class="fas fa-circle fa-xs"></i> All Staff
                                 </div>
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="{{ route('staff.create') }}">
                                 <div class="menu-item">
                                     <i class="fas fa-circle fa-xs"></i> Add New Staff
                                 </div>

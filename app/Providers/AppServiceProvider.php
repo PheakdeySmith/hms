@@ -17,6 +17,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(\Milon\Barcode\BarcodeServiceProvider::class);
         $this->app->alias('DNS1D', \Milon\Barcode\Facades\DNS1DFacade::class);
         $this->app->alias('DNS2D', \Milon\Barcode\Facades\DNS2DFacade::class);
+
+        // Register the Spatie Permission service provider
+        $this->app->register(\Spatie\Permission\PermissionServiceProvider::class);
     }
 
     /**
